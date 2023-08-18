@@ -39,6 +39,13 @@ sockets.on('connection', (socket) => {
     game.removePlayer({playerId: playerId})
     console.log(`> Player disconnected: ${playerId}`)
   })
+
+  socket.on('move-player', (command) => {
+    command.playerId
+    command.type = 'move-player'
+
+    game.movePlayer(command)
+  })
 })
 
 

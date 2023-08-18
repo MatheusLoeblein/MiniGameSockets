@@ -50,6 +50,9 @@
       game.setState(state)
       keyBoardListener.registerPlayerId(playerId)
       keyBoardListener.subscribe(game.movePlayer);
+      keyBoardListener.subscribe(command => {
+        socket.emit('move-player', command)
+      });
     })
 
     socket.on('add-player', (command) => {
@@ -58,6 +61,16 @@
 
     socket.on('remove-player', (command) => {
       game.removePlayer(command)
+    })
+
+    socket.on('move-player', (command) => {
+      console.log(`Receiving ${command.type} -> ${command.playerId} `)
+
+      const playerId = socket.id
+
+      if (playerId !== command.player) {
+        game.movePlayer(command)
+      }
     })
 
     
